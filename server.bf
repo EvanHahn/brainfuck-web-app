@@ -81,6 +81,7 @@ did we get a GET request? if so we will skip all of this bullhonkey
   u ++++++.
   n -------.
   d ----------.
+  \r\n [-]+++++++++++++.---.
 
   head to r2 which we will make sure is zero doesn't run
   remember this from before?
@@ -102,13 +103,13 @@ head to r2
   space ----------------.
   O +++++++++++++++++++++++++++++++++++++++++++++++.
   K ----.
-
-  send \r\n
-  [-]+++++++++++++.---.
+  \r\n [-]+++++++++++++.---.
 
   head back to r0 which is 0 so the loop is done
   <<
 ]
 
-send \r\n
+send the final \r\n
 +++++++++++++. ---.
+
+wow that was dreadful
