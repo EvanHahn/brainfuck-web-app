@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from sys import argv
 
-value = 0
+value = 10
 
 for c in argv[1]:
     desired_value = ord(c)
