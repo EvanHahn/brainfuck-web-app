@@ -1,4 +1,5 @@
 {
+  "name": "brainfuck-web-app",
   "private": true,
   "scripts": {
     "start": "node server",
