@@ -3,7 +3,7 @@ const brainfuck = require('brainfuck2000')
 const fs = require('fs')
 const path = require('path')
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const BF_PATH = path.resolve(__dirname, 'server.bf')
 
 const server = net.createServer((socket) => {
