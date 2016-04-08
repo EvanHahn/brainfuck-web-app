@@ -3,6 +3,8 @@ a Brainfuck web app
 
 This is a web app that returns your useragent to you in plain text. The tricky bit: it's written in Brainfuck.
 
+![screenshot](https://cloud.githubusercontent.com/assets/777712/14399473/ee4bda32-fda1-11e5-85b2-a906ec8f2982.png)
+
 Get this app set up
 -------------------
 
@@ -11,6 +13,8 @@ Get this app set up
 npm install
 npm start
 ```
+
+Visit it at `http://localhost:3000`. Try hitting other URLs to notice your 404 errors!
 
 How does this work?
 -------------------
