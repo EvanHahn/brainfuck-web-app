@@ -13,7 +13,7 @@ P ----.
 1 ++.
 dot ---.
 1 +++.
-space ----------------------------------.
+space -----------------.
 
 ************
 
@@ -21,14 +21,17 @@ next we must determine whether this is a GET request
 
 turns out that if you sum the ASCII values of each character in GET or PUT (etc) you get different numbers (GET = 224; POST = 326; etc)
 
-GET is the only thing that sums to 224
+GET is the only thing that sums to 224 and with a space that's 256
 
-this is fabulous for us; we start by creating -224 then add the ASCII sum to this number
+this is fabulous for us; we start by creating 256 then subtract the ASCII sum to from number
 
 if this number is 0 then we skip to the end and send a 404
 
-let's make register 0 become -224
->>+++++++++++++++++[<<-------------->>-]<<+
+let's make register 0 become 256
+>+++++++++++++++++[-<+++++++++++++>]<+++
+
+
+************
 
 okay so here's the plan
 
@@ -41,19 +44,71 @@ head to r1 and make sure we run the following loop at least once
 >+[
   this loop starts at r1 which should be initialized to 32
   we start by adding a bajillion numbers to it to make sure it's definitely positive
-  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   [-]++++++++++++++++++++++++++++++++
 
   grab a character into register 2
   >,
 
-  add its value to the total ASCII sum (r0)
+  subtract its value from the total ASCII sum (r0)
   and subtract its value from 32 (r1)
-  [-<-<+>>]
+  [-<-<->>]
 
   head back to register 1
   <
 ]
 
->>>>+++++++++++++++++++++++++++++++++++
-...
+increment r2; we'll come back to this later
+>+
+
+did we get a GET request? if so we will skip all of this bullhonkey
+<<[
+  head to r1 which we know is 0 at this point
+  >
+
+  4 ++++++++++++++++++++++++++++++++++++++++++++++++++++.
+  0 ----.
+  4 ++++.
+  space --------------------.
+  N ++++++++++++++++++++++++++++++++++++++++++++++.
+  o +++++++++++++++++++++++++++++++++.
+  t +++++.
+  space ------------------------------------------------------------------------------------.
+  F ++++++++++++++++++++++++++++++++++++++.
+  o +++++++++++++++++++++++++++++++++++++++++.
+  u ++++++.
+  n -------.
+  d ----------.
+
+  head to r2 which we will make sure is zero doesn't run
+  remember this from before?
+  >-
+
+  zero out r1
+  <[-]
+
+  zero out r0 (which should be negative at this point)
+  <[+]
+]
+
+head to r2
+
+>>[
+  2 +++++++++++++++++++++++++++++++++++++++++++++++++.
+  0 --.
+  0 .
+  space ----------------.
+  O +++++++++++++++++++++++++++++++++++++++++++++++.
+  K ----.
+
+  send \r\n
+  [-]+++++++++++++.---.
+
+  head back to r0 which is 0 so the loop is done
+  <<
+]
+
+send \r\n
++++++++++++++. ---.
