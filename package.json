@@ -3,12 +3,12 @@
   "private": true,
   "scripts": {
     "start": "node server",
-    "test": "standard"
+    "test": "standard --fix"
   },
   "dependencies": {
     "brainfuck2000": "^0.1.1"
   },
   "devDependencies": {
-    "standard": "^6.0.8"
+    "standard": "^10.0.3"
   }
 }

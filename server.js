@@ -23,9 +23,9 @@ const server = net.createServer((socket) => {
 })
 
 server.on('error', (err) => {
-  throw err;
-});
+  throw err
+})
 
 server.listen(PORT, () => {
-  console.log('opened server on %s', server.address().port);
+  console.log('opened server on %s', server.address().port)
 })
