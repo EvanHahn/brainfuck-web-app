@@ -112,45 +112,41 @@ The state of the registers:
 * r1 is mentioned above
 * pointer @ r0
 
-Step 4: send a 404 if we should
-===============================
+Step 4: send an error if we should
+==================================
 
 This is the dream code we'd love to write:
 
-if method != 'GET' or path != '/':
+if path != '/':
   send_404
+elif method != 'GET':
+  send_405
+else:
+  send_200
+  send_user_agent
 
 This kinda translates to:
 
-if r0 != 0 or r1 != 0:
+if r1 != 0:
   send_404
+  r0 = 0
+  r2 = negative 1
+if r0 != 0:
+  send_405
+  r2 = negative 1
+set r2 to r2 plus 1
+if r2 != 0:
+  send_200
+  send_user_agent
 
 Here's how we'll do this:
 
-If r0 != 0:
-[
-  Set r2 to 1
-  >>+
-  Zero out r0
-  <<[+]
-]
-
 If r1 != 0:
 >[
-  Increment r2
-  >+<
-  Zero out r1
-  [-]
-]
+  Move to r2
+  >
+  r2 is already 0 so we can just start to print stuff
 
-At this point:
-* if r2 != 0 then we will send a 404 message
-* if r2 == 0 then we will skip this
->[
-  Set r2 to 0
-  [-]
-
-  "404 Not Found"
   4 ++++++++++++++++++++++++++++++++++++++++++++++++++++.
   0 ----.
   4 ++++.
@@ -166,11 +162,80 @@ At this point:
   d ----------.
   \r\n [-]+++++++++++++.---.
 
+  Reset r2
+  [-]
+  Increment r2
+  +
+
+  Zero out r1
+  <[-]
+  Zero out r0 to prevent 405 from being sent
+  <[+]
+]
+<
+
+If r0 != 0:
+[
+  As we cleared r1 above we can be reasonably sure that r2 is still zero
+  So we use that for printing
+  >>
+
+  "405 Method Not Allowed"
+  4 ++++++++++++++++++++++++++++++++++++++++++++++++++++.
+  0 ----.
+  5 +++++.
+    ---------------------.
+  M +++++++++++++++++++++++++++++++++++++++++++++.
+  e ++++++++++++++++++++++++.
+  t +++++++++++++++.
+  h ------------.
+  o +++++++.
+  d -----------.
+    --------------------------------------------------------------------.
+  N ++++++++++++++++++++++++++++++++++++++++++++++.
+  o +++++++++++++++++++++++++++++++++.
+  t +++++.
+    ------------------------------------------------------------------------------------.
+  A +++++++++++++++++++++++++++++++++.
+  l +++++++++++++++++++++++++++++++++++++++++++.
+  l .
+  o +++.
+  w ++++++++.
+  e ------------------.
+  d -.
+  \r ---------------------------------------------------------------------------------------.
+  \n ---.
+  RFC 2616 mandates an Allow header on a 405 response
+  A +++++++++++++++++++++++++++++++++++++++++++++++++++++++.
+  l +++++++++++++++++++++++++++++++++++++++++++.
+  l .
+  o +++.
+  w ++++++++.
+  : -------------------------------------------------------------.
+    --------------------------.
+  G +++++++++++++++++++++++++++++++++++++++.
+  E --.
+  T +++++++++++++++.
+  \r\n [-]+++++++++++++.---.
+
+  Zero out r2
+  [-]
+  Set r2 to 1
+  +
+
+  Zero out r0
+  <<[+]
+]
+
+At this point:
+* if r2 != 0 then we set r1 to negative 1
+* if r2 == 0 then we leave r1 be
+>>[
+  Set r2 to 0
+  [-]
+
   Set r1 to negative 1—we'll come back to this
   <->
-
-  Zero out r2 to leave this loop
-  [-]
 ]
 
 Increment r1 as a marker for "is this a GET request to /"
